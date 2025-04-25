@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omda_Cell Services Portal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #25d366; /* WhatsApp green */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .nav-tabs {
+            display: flex;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        .tab.active {
+            background-color: #25d366;
+            color: white;
+        }
+        .tab:hover:not(.active) {
+            background-color: #e6f7e9;
+        }
+        .tab-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        button:hover {
+            background-color: #128c7e;
+        }
+        .whatsapp-icon {
+            margin-right: 8px;
+            width: 20px;
+            height: 20px;
+        }
+        .service-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .service-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 200px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .service-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 15px;
+        }
+        .card-content h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .price {
+            font-weight: bold;
+            color: #25d366;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Omda_Cell</div>
+            <p>Purchase Alfa Dollars, Internet Packages, Gift Cards & More</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <div class="tab active" onclick="openTab('alfa-dollars')">Alfa Dollars</div>
+            <div class="tab" onclick="openTab('u-share')">U-Share Internet</div>
+            <div class="tab" onclick="openTab('alfa-gift')">Alfa Gift Cards</div>
+            <div class="tab" onclick="openTab('other-services')">Other Services</div>
+        </div>
+
+        <div class="tab-content">
+            <div class="success-message" id="success-message">
+                Your order has been sent to WhatsApp! We'll process it shortly.
+            </div>
+
+            <!-- Alfa Dollars Tab -->
+            <div class="tab-pane active" id="alfa-dollars">
+                <h2>Order Alfa Dollars</h2>
+                <form id="alfa-dollars-form" onsubmit="sendToWhatsApp(event, 'alfa-dollars')">
+                    <div class="form-group">
+                        <label for="phone-number">Your Phone Number</label>
+                        <input type="tel" id="phone-number" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount">Select Amount</label>
+                        <select id="amount" required>
+                            <option value="">Choose an amount</option>
+                            <option value="10">$10 Alfa Dollars</option>
+                            <option value="20">$20 Alfa Dollars</option>
+                            <option value="30">$30 Alfa Dollars</option>
+                            <option value="50">$50 Alfa Dollars</option>
+                            <option value="100">$100 Alfa Dollars</option>
+                            <option value="200">$200 Alfa Dollars</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <button type="submit">
+                        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                        </svg>
+                        Order via WhatsApp
+                    </button>
+                </form>
+            </div>
+
+            <!-- U-Share Internet Tab -->
+            <div class="tab-pane" id="u-share">
+                <h2>U-Share Internet Packages</h2>
+                <div class="service-cards">
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="Basic Internet Package">
+                        <div class="card-content">
+                            <h3>Basic Package</h3>
+                            <p>2GB Data</p>
+                            <p class="price">$7.00</p>
+                            <button onclick="selectPackage('Basic Package', 5)">Select</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="Standard Internet Package">
+                        <div class="card-content">
+                            <h3>Standard Package</h3>
+                            <p>5GB Data</p>
+                            <p class="price">$10.00</p>
+                            <button onclick="selectPackage('Standard Package', 10)">Select</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="Premium Internet Package">
+                        <div class="card-content">
+                            <h3>Premium Package</h3>
+                            <p>10GB Data</p>
+                            <p class="price">$15.00</p>
+                            <button onclick="selectPackage('Premium Package', 15)">Select</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="Unlimited Internet Package">
+                        <div class="card-content">
+                            <h3>Unlimited Package</h3>
+                            <p>Unlimited Data</p>
+                            <p class="price">$25.00</p>
+                            <button onclick="selectPackage('Unlimited Package', 25)">Select</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="u-share-form" style="display: none; margin-top: 30px;" onsubmit="sendToWhatsApp(event, 'u-share')">
+                    <div class="form-group">
+                        <label for="selected-package">Selected Package</label>
+                        <input type="text" id="selected-package" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="package-price">Price</label>
+                        <input type="text" id="package-price" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipient-number">Recipient Phone Number</label>
+                        <input type="tel" id="recipient-number" placeholder="Enter recipient's phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-name">Your Name</label>
+                        <input type="text" id="customer-name" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <button type="submit">
+                        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                        </svg>
+                        Order via WhatsApp
+                    </button>
+                </form>
+            </div>
+
+            <!-- Alfa Gift Cards Tab -->
+            <div class="tab-pane" id="alfa-gift">
+                <h2>Alfa Gift Cards</h2>
+                <form id="alfa-gift-form" onsubmit="sendToWhatsApp(event, 'alfa-gift')">
+                    <div class="form-group">
+                        <label for="gift-amount">Gift Card Amount</label>
+                        <select id="gift-amount" required>
+                            <option value="">Select an amount</option>
+                            <option value="25">$25 Gift Card</option>
+                            <option value="50">$50 Gift Card</option>
+                            <option value="100">$100 Gift Card</option>
+                            <option value="200">$200 Gift Card</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipient-name">Recipient Name</label>
+                        <input type="text" id="recipient-name" placeholder="Enter recipient's name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipient-email">Recipient Email (Optional)</label>
+                        <input type="email" id="recipient-email" placeholder="Enter recipient's email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gift-message">Gift Message (Optional)</label>
+                        <input type="text" id="gift-message" placeholder="Enter a personal message">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-full-name">Your Name</label>
+                        <input type="text" id="customer-full-name" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="customer-phone">Your Phone Number</label>
+                        <input type="tel" id="customer-phone" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <button type="submit">
+                        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                        </svg>
+                        Order via WhatsApp
+                    </button>
+                </form>
+            </div>
+
+            <!-- Other Services Tab -->
+            <div class="tab-pane" id="other-services">
+                <h2>Additional Services</h2>
+                <div class="service-cards">
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="International Calling">
+                        <div class="card-content">
+                            <h3>International Calling</h3>
+                            <p>Low rates worldwide</p>
+                            <p class="price">From $5.00</p>
+                            <button onclick="sendDirectService('International Calling Package')">Order Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="Roaming Package">
+                        <div class="card-content">
+                            <h3>Roaming Package</h3>
+                            <p>Stay connected abroad</p>
+                            <p class="price">From $15.00</p>
+                            <button onclick="sendDirectService('Roaming Package')">Order Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="Data Boosters">
+                        <div class="card-content">
+                            <h3>Data Boosters</h3>
+                            <p>Extra GB when needed</p>
+                            <p class="price">From $3.00</p>
+                            <button onclick="sendDirectService('Data Booster Package')">Order Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <img src="/api/placeholder/200/120" alt="Entertainment Bundles">
+                        <div class="card-content">
+                            <h3>Entertainment</h3>
+                            <p>Music & video streaming</p>
+                            <p class="price">From $8.00</p>
+                            <button onclick="sendDirectService('Entertainment Bundle')">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2025 Omda_Cell - Your trusted service provider</p>
+            <p>For customer support, please contact us on WhatsApp at +96170190453</p>
+        </div>
+    </div>
+
+    <script>
+        // Change this to your actual WhatsApp number with country code
+        const whatsappNumber = "+96170190453";
+        
+        function openTab(tabId) {
+            // Hide all tab panes
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+            
+            // Deactivate all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show the selected tab pane
+            const selectedPane = document.getElementById(tabId);
+            if (selectedPane) {
+                selectedPane.classList.add('active');
+            }
+            
+            // Activate the clicked tab
+            const clickedTab = Array.from(tabs).find(tab => 
+                tab.textContent.toLowerCase().includes(tabId.replace(/-/g, ' ')));
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+            
+            // Hide success message when changing tabs
+            document.getElementById('success-message').style.display = 'none';
+        }
+        
+        function selectPackage(packageName, price) {
+            // Show the form
+            document.getElementById('u-share-form').style.display = 'block';
+            
+            // Fill in the form with the selected package details
+            document.getElementById('selected-package').value = packageName;
+            document.getElementById('package-price').value = '$' + price.toFixed(2);
+            
+            // Scroll to the form
+            document.getElementById('u-share-form').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function sendToWhatsApp(event, formType) {
+            event.preventDefault();
+            
+            let message = "Hello Omda_Cell, I would like to order: ";
+            
+            if (formType === 'alfa-dollars') {
+                const phoneNumber = document.getElementById('phone-number').value;
+                const amount = document.getElementById('amount').value;
+                const name = document.getElementById('name').value;
+                
+                message += `\n*Alfa Dollars Order*\n- Amount: $${amount}\n- Phone Number: ${phoneNumber}\n- Name: ${name}`;
+            } 
+            else if (formType === 'u-share') {
+                const packageName = document.getElementById('selected-package').value;
+                const packagePrice = document.getElementById('package-price').value;
+                const recipientNumber = document.getElementById('recipient-number').value;
+                const customerName = document.getElementById('customer-name').value;
+                
+                message += `\n*U-Share Internet Package*\n- Package: ${packageName}\n- Price: ${packagePrice}\n- Recipient Number: ${recipientNumber}\n- Name: ${customerName}`;
+            } 
+            else if (formType === 'alfa-gift') {
+                const giftAmount = document.getElementById('gift-amount').value;
+                const recipientName = document.getElementById('recipient-name').value;
+                const recipientEmail = document.getElementById('recipient-email').value;
+                const giftMessage = document.getElementById('gift-message').value;
+                const customerName = document.getElementById('customer-full-name').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                
+                message += `\n*Alfa Gift Card*\n- Amount: $${giftAmount}\n- Recipient: ${recipientName}`;
+                if (recipientEmail) message += `\n- Email: ${recipientEmail}`;
+                if (giftMessage) message += `\n- Message: ${giftMessage}`;
+                message += `\n- My Name: ${customerName}\n- My Phone: ${customerPhone}`;
+            }
+            
+            // Encode the message for WhatsApp link
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappLink, '_blank');
+            
+            // Show success message
+            const successMessage = document.getElementById('success-message');
+            successMessage.style.display = 'block';
+            
+            // Reset the form
+            event.target.reset();
+            
+            // If it's the U-Share form, hide it after submission
+            if (formType === 'u-share') {
+                document.getElementById('u-share-form').style.display = 'none';
+            }
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth' });
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        function sendDirectService(serviceName) {
+            // Create a simple message for direct service orders
+            const message = `Hello Omda_Cell, I'm interested in your *${serviceName}*. Please provide more information.`;
+            
+            // Encode the message for WhatsApp link
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = `https://wa.me/${+96170190453}?text=${encodedMessage}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappLink, '_blank');
+            
+            // Show success message
+            const successMessage = document.getElementById('success-message');
+            successMessage.style.display = 'block';
+            successMessage.scrollIntoView({ behavior: 'smooth' });
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
